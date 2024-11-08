@@ -44,7 +44,7 @@ ErrorNumbers listCtor(ListInfo* my_list, FILE* log_file)
     }
     *my_list->prev = 0;
 
-    CHECK_ERROR(listDump(my_list, log_file));
+    CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
 
     return check_error;
 }
@@ -55,7 +55,7 @@ ErrorNumbers listDtor(ListInfo* my_list, FILE* log_file)
 
     ErrorNumbers check_error = _NO_ERROR;
 
-    CHECK_ERROR(listDump(my_list, log_file));
+    CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
 
     my_list->capacity = 0;
     my_list->size = 0;

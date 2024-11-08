@@ -57,7 +57,7 @@ ErrorNumbers errorHandler(ErrorNumbers error, const char* func_name)
             fprintf(stderr, "ERROR: The free variable has assumed an impossible value\n");
             break;
         }
-        case _LIST_POP_ERROR:
+        case _LIST_GET_ERROR:
         {
             fprintf(stderr, "ERROR: The specified element cannot be extracted\n");
             break;

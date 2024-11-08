@@ -9,7 +9,8 @@ typedef int ListElem_t;
 const int MIN_LIST_SIZE = 16;
 const int POISON_VALUE  = -123;
 
-enum ErrorNumbers{
+enum ErrorNumbers
+{
     _NO_ERROR            = 0,
     _OPEN_ERROR          = 1,
     _NULL_ADDRESS_ERROR  = 2,
@@ -20,10 +21,11 @@ enum ErrorNumbers{
     _LOOP_ERROR          = 7,
     _LIST_SIZE_ERROR     = 8,
     _LIST_FREE_ERROR     = 9,
-    _LIST_POP_ERROR      = 10
+    _LIST_GET_ERROR      = 10
 };
 
-struct ListInfo{
+struct ListInfo
+{
     ListElem_t* data;
     int capacity;
     int size;
@@ -33,6 +35,6 @@ struct ListInfo{
 };
 
 #define CHECK_NULL_ADDR_ERROR(variable, ERROR_NUMBER) if(variable == NULL) \
-                                     {return ERROR_NUMBER;}
+                                                          {return ERROR_NUMBER;}
 
 #endif // LIST_H

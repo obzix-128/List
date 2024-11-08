@@ -1,8 +1,8 @@
 #include "../include/ErrorHandler.h"
 #include "../include/List.h"
 #include "../include/CtorAndDtor.h"
-#include "../include/DifferentPushs.h"
-#include "../include/DifferentPop.h"
+#include "../include/DifferentInserts.h"
+#include "../include/DifferentGet.h"
 #include "../include/Verificator.h"
 #include "../include/WorkWithLogFile.h"
 
@@ -24,21 +24,20 @@ int main(const int argc, const char** argv)
     struct ListInfo my_list = {};
     CHECK_ERROR(listCtor(&my_list, log_file));
 
-    CHECK_ERROR(listPushHead(&my_list, 10, log_file));
-    CHECK_ERROR(listPushHead(&my_list, 20, log_file));
-    CHECK_ERROR(listPushHead(&my_list, 30, log_file));
-    CHECK_ERROR(listPushHead(&my_list, 40, log_file));
-    CHECK_ERROR(listPushHead(&my_list, 50, log_file));
-    CHECK_ERROR(listPushBefore(&my_list, 1, 5, log_file));
-    CHECK_ERROR(listPushAfter(&my_list, 5, 60, log_file));
-    CHECK_ERROR(listPushAfter(&my_list, 3, 35, log_file));
+    CHECK_ERROR(listInsertHead(&my_list, 10, log_file));
+    CHECK_ERROR(listInsertHead(&my_list, 20, log_file));
+    CHECK_ERROR(listInsertHead(&my_list, 30, log_file));
+    CHECK_ERROR(listInsertHead(&my_list, 40, log_file));
+    CHECK_ERROR(listInsertHead(&my_list, 50, log_file));
+    CHECK_ERROR(listInsertBefore(&my_list, 1, 5, log_file));
+    CHECK_ERROR(listInsertAfter(&my_list, 5, 60, log_file));
+    CHECK_ERROR(listInsertAfter(&my_list, 3, 35, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 4, log_file));
 
-    int elem_pop = 0;
-    CHECK_ERROR(listPop(&my_list, 4, &elem_pop, log_file));
+    int elem_Get = 0;
+    CHECK_ERROR(listGet(&my_list, 4, &elem_Get, log_file));
 
-    CHECK_ERROR(findElement(&my_list, &elem_pop, 50));
-
-    printf("%d\n", elem_pop);
+    CHECK_ERROR(findElement(&my_list, &elem_Get, 50));
 
     CHECK_ERROR(listDtor(&my_list, log_file));
 

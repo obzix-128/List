@@ -15,12 +15,16 @@ ErrorNumbers openLogFile(FILE** log_file, const char** log_file_name)
     return _NO_ERROR;
 }
 
-ErrorNumbers listDump(ListInfo* my_list, FILE* log_file)
+ErrorNumbers listDump(ListInfo* my_list, FILE* log_file, const char* func_name, int element_number,
+                      CellStatus status)
 {
     CHECK_NULL_ADDR_ERROR(my_list, _NULL_ADDRESS_ERROR);
     CHECK_NULL_ADDR_ERROR(log_file, _NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(func_name, _NULL_ADDRESS_ERROR);
 
     ErrorNumbers check_error = _NO_ERROR;
+
+    fprintf(log_file, "<h2>Dump is called from the function %s </h2>\n", func_name);
 
     fprintf(log_file, "my_list [%p]\n", my_list);
 
@@ -86,14 +90,14 @@ ErrorNumbers listDump(ListInfo* my_list, FILE* log_file)
 
     fprintf(log_file, "\n");
 
-    CHECK_ERROR(buildGraphs(my_list, log_file));
+    CHECK_ERROR(buildGraphs(my_list, log_file, element_number, status));
 
     fprintf(log_file, "\n");
 
     return check_error;
 }
 
-ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file)
+ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file, int element_number, CellStatus status)
 {
     CHECK_NULL_ADDR_ERROR(my_list, _NULL_ADDRESS_ERROR);
     CHECK_NULL_ADDR_ERROR(log_file, _NULL_ADDRESS_ERROR);
@@ -134,18 +138,53 @@ ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file)
 
     fprintf(file_to_write, "}\n");
 
-    for(int i = 0, j = 0; j <= my_list->size; i = my_list->next[i], j++)
+    fprintf(file_to_write, "_%d[shape = record, style = \"filled\" fillcolor = \"#ffc8ff\", "
+            "label = \" ip = %d | next = %d | prev = %d | data = %d \"]\n",
+            0, 0, my_list->next[0], my_list->prev[0], my_list->data[0]);
+
+    for(int i = my_list->next[0]; i != 0; i = my_list->next[i])
     {
-        fprintf(file_to_write, "_%d[shape = record, style = \"filled\" fillcolor = \"#bbffff\", "
-                "label = \" ip = %d | data = %d | next = %d | prev = %d \"]\n",
-                i, i, my_list->data[i], my_list->next[i], my_list->prev[i]);
+        fprintf(file_to_write, "_%d[shape = record, style = \"filled\" fillcolor = ", i);
+
+        if(i == element_number)
+        {
+            switch(status)
+            {
+                case _STATUS_IS_UNCHANGED:
+                {
+                    fprintf(file_to_write, "\"#bbffff\",");
+                    break;
+                }
+                case _DELETING_CELL:
+                {
+                    fprintf(file_to_write, "\"#ffa0a0\",");
+                    break;
+                }
+                case _INSERTING_CELL:
+                {
+                    fprintf(file_to_write, "\"#b0ffb0\",");
+                    break;
+                }
+                default:
+                {
+                    fprintf(file_to_write, "\"#bbffff\",");
+                    break;
+                }
+            }
+        }
+        else
+        {
+            fprintf(file_to_write, "\"#bbffff\",");
+        }
+
+        fprintf(file_to_write, "label = \" ip = %d | next = %d | prev = %d | data = %d \"]\n", i, my_list->next[i], my_list->prev[i], my_list->data[i]);
     }
 
     for(int i = my_list->free, j = my_list->size; j < my_list->capacity - 1; i = my_list->next[i], j++)
     {
-        fprintf(file_to_write, "_%d[shape = record, style = \"filled\" fillcolor = \"#b0ffb0\", "
-                "label = \" ip = %d | data = %d | next = %d | prev = %d \"]\n",
-                i, i, my_list->data[i], my_list->next[i], my_list->prev[i]);
+        fprintf(file_to_write, "_%d[shape = record, style = \"filled\" fillcolor = \"#b0b0b0\", "
+                "label = \" ip = %d | next = %d | prev = %d | data = %d \"]\n",
+                i, i, my_list->next[i], my_list->prev[i], my_list->data[i]);
     }
 
     fprintf(file_to_write, "{\n");
@@ -171,8 +210,6 @@ ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file)
     fprintf(file_to_write, "}\n");
 
     fprintf(file_to_write, "{\n");
-    fprintf(file_to_write, "edge[color = \"#30a030\"];\n");
-
     fprintf(file_to_write, "_%d", my_list->free);
     for(int i = my_list->free; my_list->next[i] != 0; i = my_list->next[i])
     {
@@ -216,7 +253,7 @@ ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file)
 
     sprintf(file_name, "image/Graf%d", counter);
 
-    fprintf(log_file, "<img src=\"%s.png\">", file_name);
+    fprintf(log_file, "<img src = \"%s.png\" width = \"1600\">", file_name);
 
     sprintf(command, "dot %s.txt -T png -o %s.png", file_name, file_name);
 
