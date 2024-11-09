@@ -33,8 +33,70 @@ int main(const int argc, const char** argv)
     CHECK_ERROR(listInsertAfter(&my_list, 5, 60, log_file));
     CHECK_ERROR(listInsertAfter(&my_list, 3, 35, log_file));
     CHECK_ERROR(listInsertTail(&my_list, 4, log_file));
+    CHECK_ERROR(listInsertHead(&my_list, 70, log_file));
+    CHECK_ERROR(listInsertHead(&my_list, 80, log_file));
+    CHECK_ERROR(listInsertHead(&my_list, 90, log_file));
+    CHECK_ERROR(listInsertHead(&my_list, 100, log_file));
+    CHECK_ERROR(listInsertHead(&my_list, 110, log_file));
+    CHECK_ERROR(listInsertHead(&my_list, 120, log_file));
+    CHECK_ERROR(listInsertHead(&my_list, 130, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
+    CHECK_ERROR(listInsertTail(&my_list, 2, log_file));
 
     int elem_Get = 0;
+
+    for(int i = 63; i > 10; i--)
+    {
+        CHECK_ERROR(listGet(&my_list, i, &elem_Get, log_file));
+    }
+
     CHECK_ERROR(listGet(&my_list, 4, &elem_Get, log_file));
 
     CHECK_ERROR(findElement(&my_list, &elem_Get, 50));

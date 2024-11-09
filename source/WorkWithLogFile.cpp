@@ -28,13 +28,13 @@ ErrorNumbers listDump(ListInfo* my_list, FILE* log_file, const char* func_name, 
 
     fprintf(log_file, "my_list [%p]\n", my_list);
 
-    if(my_list->data != NULL)
+    if(my_list->cell != NULL)
     {
-        fprintf(log_file, "my_list->data [%p]\n", my_list->data);
+        fprintf(log_file, "my_list->cell [%p]\n", my_list->cell);
     }
     else
     {
-        fprintf(log_file, "my_list->data [BROKEN ADDRESS]\n");
+        fprintf(log_file, "my_list->cell [BROKEN ADDRESS]\n");
     }
 
     fprintf(log_file, "my_list->capacity [%p] = %d\n", &my_list->capacity, my_list->capacity);
@@ -43,9 +43,9 @@ ErrorNumbers listDump(ListInfo* my_list, FILE* log_file, const char* func_name, 
 
     fprintf(log_file, "my_list->free [%p] = %d\n", &my_list->free, my_list->free);
 
-    if(my_list->capacity > 0 && my_list->data != NULL)
+    if(my_list->capacity > 0 && my_list->cell != NULL)
     {
-        fprintf(log_file, "my_list->data:\n");
+        fprintf(log_file, "my_list->cell->data:\n");
         for(int i = 0; i < my_list->capacity; i++)
         {
             fprintf(log_file, "%4d ", i);
@@ -53,14 +53,14 @@ ErrorNumbers listDump(ListInfo* my_list, FILE* log_file, const char* func_name, 
         fprintf(log_file, "\n");
         for(int i = 0; i < my_list->capacity; i++)
         {
-            fprintf(log_file, "%4d ", my_list->data[i]);
+            fprintf(log_file, "%4d ", my_list->cell[i].data);
         }
         fprintf(log_file, "\n");
     }
 
-    if(my_list->capacity > 0 && my_list->next != NULL)
+    if(my_list->capacity > 0 && my_list->cell != NULL)
     {
-        fprintf(log_file, "my_list->next [%p]\n", my_list->next);
+        fprintf(log_file, "my_list->cell->next:\n");
         for(int i = 0; i < my_list->capacity; i++)
         {
             fprintf(log_file, "%4d ", i);
@@ -68,14 +68,14 @@ ErrorNumbers listDump(ListInfo* my_list, FILE* log_file, const char* func_name, 
         fprintf(log_file, "\n");
         for(int i = 0; i < my_list->capacity; i++)
         {
-            fprintf(log_file, "%4d ", my_list->next[i]);
+            fprintf(log_file, "%4d ", my_list->cell[i].next);
         }
         fprintf(log_file, "\n");
     }
 
-    if(my_list->capacity > 0 && my_list->prev != NULL)
+    if(my_list->capacity > 0 && my_list->cell != NULL)
     {
-        fprintf(log_file, "my_list->prev [%p]\n", my_list->prev);
+        fprintf(log_file, "my_list->cell->prev\n");
         for(int i = 0; i < my_list->capacity; i++)
         {
             fprintf(log_file, "%4d ", i);
@@ -83,7 +83,7 @@ ErrorNumbers listDump(ListInfo* my_list, FILE* log_file, const char* func_name, 
         fprintf(log_file, "\n");
         for(int i = 0; i < my_list->capacity; i++)
         {
-            fprintf(log_file, "%4d ", my_list->prev[i]);
+            fprintf(log_file, "%4d ", my_list->cell[i].prev);
         }
         fprintf(log_file, "\n");
     }
@@ -140,9 +140,9 @@ ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file, int element_number, 
 
     fprintf(file_to_write, "_%d[shape = record, style = \"filled\" fillcolor = \"#ffc8ff\", "
             "label = \" ip = %d | next = %d | prev = %d | data = %d \"]\n",
-            0, 0, my_list->next[0], my_list->prev[0], my_list->data[0]);
+            0, 0, my_list->cell[0].next, my_list->cell[0].prev, my_list->cell[0].data);
 
-    for(int i = my_list->next[0]; i != 0; i = my_list->next[i])
+    for(int i = my_list->cell[0].next; i != 0; i = my_list->cell[i].next)
     {
         fprintf(file_to_write, "_%d[shape = record, style = \"filled\" fillcolor = ", i);
 
@@ -177,23 +177,26 @@ ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file, int element_number, 
             fprintf(file_to_write, "\"#bbffff\",");
         }
 
-        fprintf(file_to_write, "label = \" ip = %d | next = %d | prev = %d | data = %d \"]\n", i, my_list->next[i], my_list->prev[i], my_list->data[i]);
+        fprintf(file_to_write, "label = \" ip = %d | next = %d | prev = %d | data = %d \"]\n", i,
+                my_list->cell[i].next, my_list->cell[i].prev, my_list->cell[i].data);
     }
 
-    for(int i = my_list->free, j = my_list->size; j < my_list->capacity - 1; i = my_list->next[i], j++)
+    for(int i = my_list->free, j = my_list->size;
+        j < my_list->capacity - 1;
+        i = my_list->cell[i].next, j++)
     {
         fprintf(file_to_write, "_%d[shape = record, style = \"filled\" fillcolor = \"#b0b0b0\", "
                 "label = \" ip = %d | next = %d | prev = %d | data = %d \"]\n",
-                i, i, my_list->next[i], my_list->prev[i], my_list->data[i]);
+                i, i, my_list->cell[i].next, my_list->cell[i].prev, my_list->cell[i].data);
     }
 
     fprintf(file_to_write, "{\n");
     fprintf(file_to_write, "edge[color = \"#50a0ff\"];\n");
 
-    fprintf(file_to_write, "_%d", my_list->next[0]);
-    for(int i = my_list->next[0]; my_list->next[i] != 0; i = my_list->next[i])
+    fprintf(file_to_write, "_%d", my_list->cell[0].next);
+    for(int i = my_list->cell[0].next; my_list->cell[i].next != 0; i = my_list->cell[i].next)
     {
-        fprintf(file_to_write, "->_%d", my_list->next[i]);
+        fprintf(file_to_write, "->_%d", my_list->cell[i].next);
     }
     fprintf(file_to_write, "\n");
     fprintf(file_to_write, "}\n");
@@ -201,38 +204,48 @@ ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file, int element_number, 
     fprintf(file_to_write, "{\n");
     fprintf(file_to_write, "edge[color = \"red\"];\n");
 
-    fprintf(file_to_write, "_%d", my_list->prev[0]);
-    for(int i = my_list->prev[0]; my_list->prev[i] != 0; i = my_list->prev[i])
+    fprintf(file_to_write, "_%d", my_list->cell[0].prev);
+    for(int i = my_list->cell[0].prev; my_list->cell[i].prev != 0; i = my_list->cell[i].prev)
     {
-        fprintf(file_to_write, "->_%d", my_list->prev[i]);
+        fprintf(file_to_write, "->_%d", my_list->cell[i].prev);
     }
     fprintf(file_to_write, "\n");
     fprintf(file_to_write, "}\n");
 
-    fprintf(file_to_write, "{\n");
-    fprintf(file_to_write, "_%d", my_list->free);
-    for(int i = my_list->free; my_list->next[i] != 0; i = my_list->next[i])
+    if(my_list->free != 0)
     {
-        fprintf(file_to_write, "->_%d", my_list->next[i]);
+        fprintf(file_to_write, "{\n");
+
+        fprintf(file_to_write, "_%d", my_list->free);
+        for(int i = my_list->free; my_list->cell[i].next != 0; i = my_list->cell[i].next)
+        {
+            fprintf(file_to_write, "->_%d", my_list->cell[i].next);
+        }
+        fprintf(file_to_write, "\n");
+        fprintf(file_to_write, "}\n");
     }
-    fprintf(file_to_write, "\n");
-    fprintf(file_to_write, "}\n");
 
     int column_number = 0;
 
     fprintf(file_to_write, "{rank = same; \"_0\"; \"_%d_\";}\n", column_number);
     column_number += 1;
-    for(int i = 0; my_list->next[i] != 0; i = my_list->next[i])
+    for(int i = 0; my_list->cell[i].next != 0; i = my_list->cell[i].next)
     {
-        fprintf(file_to_write, "{rank = same; \"_%d\"; \"_%d_\";}\n", my_list->next[i], column_number);
+        fprintf(file_to_write, "{rank = same; \"_%d\"; \"_%d_\";}\n",
+                my_list->cell[i].next, column_number);
         column_number += 1;
     }
 
-    fprintf(file_to_write, "{rank = same; \"_%d\"; \"_%d_\";}\n", my_list->free, column_number);
-    column_number += 1;
-    for(int i = my_list->free; my_list->next[i] != 0; i = my_list->next[i])
+    if(column_number < my_list->capacity)
     {
-        fprintf(file_to_write, "{rank = same; \"_%d\"; \"_%d_\";}\n", my_list->next[i], column_number);
+        fprintf(file_to_write, "{rank = same; \"_%d\"; \"_%d_\";}\n", my_list->free, column_number);
+        column_number += 1;
+    }
+
+    for(int i = my_list->free; my_list->cell[i].next != 0 && column_number < my_list->capacity; i = my_list->cell[i].next)
+    {
+        fprintf(file_to_write, "{rank = same; \"_%d\"; \"_%d_\";}\n",
+                my_list->cell[i].next, column_number);
         column_number += 1;
     }
     fprintf(file_to_write, "\n");
@@ -243,8 +256,8 @@ ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file, int element_number, 
     fprintf(file_to_write, "TAIL[shape = \"octagon\", style = \"filled\" fillcolor = \"#ffffbb\"];\n");
     fprintf(file_to_write, "FREE[shape = \"octagon\", style = \"filled\" fillcolor = \"#ffffbb\"];\n");
 
-    fprintf(file_to_write, "HEAD->_%d\n", my_list->next[0]);
-    fprintf(file_to_write, "TAIL->_%d\n", my_list->prev[0]);
+    fprintf(file_to_write, "HEAD->_%d\n", my_list->cell[0].next);
+    fprintf(file_to_write, "TAIL->_%d\n", my_list->cell[0].prev);
     fprintf(file_to_write, "FREE->_%d\n", my_list->free);
 
     fprintf(file_to_write, "}\n");

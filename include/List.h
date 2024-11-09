@@ -24,14 +24,19 @@ enum ErrorNumbers
     _LIST_GET_ERROR      = 10
 };
 
+struct ListCell_t
+{
+    ListElem_t data;
+    int next;
+    int prev;
+};
+
 struct ListInfo
 {
-    ListElem_t* data;
+    ListCell_t* cell;
     int capacity;
     int size;
     int free;
-    int* next;
-    int* prev;
 };
 
 #define CHECK_NULL_ADDR_ERROR(variable, ERROR_NUMBER) if(variable == NULL) \
