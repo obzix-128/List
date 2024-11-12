@@ -271,9 +271,7 @@ ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file, int element_number, 
     sprintf(command, "dot %s.txt -T png -o %s.png", file_name, file_name);
 
     system(command);
-
-    sprintf(file_name, "image/Graf%d.html", counter);
-
+    
     counter += 1;
 
     return _NO_ERROR;
