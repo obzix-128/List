@@ -75,7 +75,7 @@ static ErrorNumbers listInsert(ListInfo* my_list, ListElem_t value, int element_
                                int element_after, FILE* log_file)
 {
     ErrorNumbers check_error = _NO_ERROR;
-    CHECK_ERROR(listMemory(my_list, &element_before, &element_after));
+    CHECK_ERROR(listChangeMemory(my_list, &element_before, &element_after));
 
     int empty_cell = my_list->free;
     my_list->free = my_list->cell[empty_cell].next;
@@ -91,7 +91,7 @@ static ErrorNumbers listInsert(ListInfo* my_list, ListElem_t value, int element_
     return check_error;
 }
 
-ErrorNumbers listMemory(ListInfo* my_list, int* element_before, int* element_after)
+ErrorNumbers listChangeMemory(ListInfo* my_list, int* element_before, int* element_after)
 {
     ErrorNumbers check_error = _NO_ERROR;
     CHECK_ERROR(listVerificator(my_list));
@@ -128,11 +128,11 @@ ErrorNumbers listMemory(ListInfo* my_list, int* element_before, int* element_aft
 
         if(j == *element_before)
         {
-            *element_before = i * (-1);
+            *element_before = i * (-1); // To avoid repeated changes
         }
         else if(j == *element_after)
         {
-            *element_after =  i * (-1);
+            *element_after =  i * (-1); // To avoid repeated changes
         }
     }
     *element_before = (*element_before) * (-1);

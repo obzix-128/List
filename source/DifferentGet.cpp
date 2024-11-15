@@ -37,7 +37,7 @@ ErrorNumbers listGet(ListInfo* my_list, int element_number, ListElem_t* value, F
 
     my_list->size -= 1;
 
-    CHECK_ERROR(listMemory(my_list, &element_number, &element_number));
+    CHECK_ERROR(listChangeMemory(my_list, &element_number, &element_number));
 
     CHECK_ERROR(listVerificator(my_list));
 

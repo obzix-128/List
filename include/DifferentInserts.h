@@ -8,6 +8,6 @@ ErrorNumbers listInsertBefore(ListInfo* my_list, int element_number, ListElem_t 
 ErrorNumbers listInsertAfter(ListInfo* my_list, int element_number, ListElem_t value, FILE* log_file);
 ErrorNumbers listInsertHead(ListInfo* my_list, ListElem_t value, FILE* log_file);
 ErrorNumbers listInsertTail(ListInfo* my_list, ListElem_t value, FILE* log_file);
-ErrorNumbers listMemory(ListInfo* my_list, int* element_before, int* element_after);
+ErrorNumbers listChangeMemory(ListInfo* my_list, int* element_before, int* element_after);
 
 #endif // DIFFERENTINSERTS_H
