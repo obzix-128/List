@@ -5,7 +5,7 @@
 
 
 static ErrorNumbers listInsert(ListInfo* my_list, ListElem_t value, int element_Before,
-                               int element_after, FILE* log_file);
+                               int element_after);
 
 
 ErrorNumbers listInsertHead(ListInfo* my_list, ListElem_t value, FILE* log_file)
@@ -15,7 +15,7 @@ ErrorNumbers listInsertHead(ListInfo* my_list, ListElem_t value, FILE* log_file)
     CHECK_ERROR(listVerificator(my_list));
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
 
-    CHECK_ERROR(listInsert(my_list, value, 0, my_list->cell[0].next, log_file));
+    CHECK_ERROR(listInsert(my_list, value, 0, my_list->cell[0].next));
 
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, my_list->cell[0].next,
                          _INSERTING_CELL));
@@ -31,7 +31,7 @@ ErrorNumbers listInsertTail(ListInfo* my_list, ListElem_t value, FILE* log_file)
     CHECK_ERROR(listVerificator(my_list));
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
 
-    CHECK_ERROR(listInsert(my_list, value, my_list->cell[0].prev, 0, log_file));
+    CHECK_ERROR(listInsert(my_list, value, my_list->cell[0].prev, 0));
 
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, my_list->cell[0].prev,
                          _INSERTING_CELL));
@@ -47,7 +47,7 @@ ErrorNumbers listInsertBefore(ListInfo* my_list, int element_number, ListElem_t 
     CHECK_ERROR(listVerificator(my_list));
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
 
-    CHECK_ERROR(listInsert(my_list, value, element_number, my_list->cell[element_number].next, log_file));
+    CHECK_ERROR(listInsert(my_list, value, element_number, my_list->cell[element_number].next));
 
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, my_list->cell[element_number].next,
                          _INSERTING_CELL));
@@ -62,7 +62,7 @@ ErrorNumbers listInsertAfter(ListInfo* my_list, int element_number, ListElem_t v
     CHECK_ERROR(listVerificator(my_list));
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
 
-    CHECK_ERROR(listInsert(my_list, value, my_list->cell[element_number].prev, element_number, log_file));
+    CHECK_ERROR(listInsert(my_list, value, my_list->cell[element_number].prev, element_number));
 
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, my_list->cell[element_number].prev,
                          _INSERTING_CELL));
@@ -72,7 +72,7 @@ ErrorNumbers listInsertAfter(ListInfo* my_list, int element_number, ListElem_t v
 }
 
 static ErrorNumbers listInsert(ListInfo* my_list, ListElem_t value, int element_before,
-                               int element_after, FILE* log_file)
+                               int element_after)
 {
     ErrorNumbers check_error = _NO_ERROR;
     CHECK_ERROR(listChangeMemory(my_list, &element_before, &element_after));

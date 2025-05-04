@@ -106,7 +106,8 @@ ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file, int element_number, 
 
     const int FILE_NAME_SIZE = 100;
     char file_name[FILE_NAME_SIZE] = {};
-    char command[FILE_NAME_SIZE] = {};
+    const int COMMAND_SIZE = 300;
+    char command[COMMAND_SIZE] = {};
 
     sprintf(file_name, "image/Graf%d.txt", counter);
 
