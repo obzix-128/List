@@ -39,7 +39,9 @@ ErrorNumbers listCtor(ListInfo* my_list, FILE* log_file)
     }
     my_list->cell[0].prev = 0;
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
+    #endif //RELEASE_MODE_D
 
     return check_error;
 }
@@ -51,7 +53,9 @@ ErrorNumbers listDtor(ListInfo* my_list, FILE* log_file)
 
     ErrorNumbers check_error = _NO_ERROR;
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
+    #endif //RELEASE_MODE_D
 
     memset(my_list->cell, POISON_VALUE, (sizeof(ListElem_t) + sizeof(int) * 2) * my_list->capacity);
 

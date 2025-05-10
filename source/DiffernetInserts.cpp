@@ -12,14 +12,18 @@ ErrorNumbers listInsertHead(ListInfo* my_list, ListElem_t value, FILE* log_file)
 {
     ErrorNumbers check_error = _NO_ERROR;
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
+    #endif // RELEASE_MODE_D
 
     CHECK_ERROR(listInsert(my_list, value, 0, my_list->cell[0].next));
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, my_list->cell[0].next,
                          _INSERTING_CELL));
     CHECK_ERROR(listVerificator(my_list));
+    #endif // RELEASE_MODE_D
 
     return check_error;
 }
@@ -28,14 +32,18 @@ ErrorNumbers listInsertTail(ListInfo* my_list, ListElem_t value, FILE* log_file)
 {
     ErrorNumbers check_error = _NO_ERROR;
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
+    #endif // RELEASE_MODE_D
 
     CHECK_ERROR(listInsert(my_list, value, my_list->cell[0].prev, 0));
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, my_list->cell[0].prev,
                          _INSERTING_CELL));
     CHECK_ERROR(listVerificator(my_list));
+    #endif // RELEASE_MODE_D
 
     return check_error;
 }
@@ -44,14 +52,18 @@ ErrorNumbers listInsertBefore(ListInfo* my_list, int element_number, ListElem_t 
 {
     ErrorNumbers check_error = _NO_ERROR;
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
+    #endif // RELEASE_MODE_D
 
     CHECK_ERROR(listInsert(my_list, value, element_number, my_list->cell[element_number].next));
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, my_list->cell[element_number].next,
                          _INSERTING_CELL));
     CHECK_ERROR(listVerificator(my_list));
+    #endif // RELEASE_MODE_D
 
     return check_error;
 }
@@ -59,14 +71,19 @@ ErrorNumbers listInsertBefore(ListInfo* my_list, int element_number, ListElem_t 
 ErrorNumbers listInsertAfter(ListInfo* my_list, int element_number, ListElem_t value, FILE* log_file)
 {
     ErrorNumbers check_error = _NO_ERROR;
+
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
+    #endif // RELEASE_MODE_D
 
     CHECK_ERROR(listInsert(my_list, value, my_list->cell[element_number].prev, element_number));
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, my_list->cell[element_number].prev,
                          _INSERTING_CELL));
     CHECK_ERROR(listVerificator(my_list));
+    #endif // RELEASE_MODE_D
 
     return check_error;
 }
@@ -94,7 +111,11 @@ static ErrorNumbers listInsert(ListInfo* my_list, ListElem_t value, int element_
 ErrorNumbers listChangeMemory(ListInfo* my_list, int* element_before, int* element_after)
 {
     ErrorNumbers check_error = _NO_ERROR;
+
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
+    #endif // RELEASE_MODE_D
+
     int new_capacity = 0;
 
     if(my_list->size < MIN_LIST_SIZE - 1)
@@ -157,7 +178,9 @@ ErrorNumbers listChangeMemory(ListInfo* my_list, int* element_before, int* eleme
     my_list->cell = new_array_of_cells;
     my_list->capacity = new_capacity;
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
+    #endif // RELEASE_MODE_D
 
     return check_error;
 }

@@ -109,7 +109,7 @@ ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file, int element_number, 
     const int COMMAND_SIZE = 300;
     char command[COMMAND_SIZE] = {};
 
-    sprintf(file_name, "image/Graf%d.txt", counter);
+    sprintf(file_name, LIST_DUMP_PATH_D "Graf%d.txt", counter);
 
     FILE* file_to_write = fopen(file_name, "w");
     CHECK_NULL_ADDR_ERROR(file_to_write, _NULL_ADDRESS_ERROR);
@@ -265,7 +265,7 @@ ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file, int element_number, 
 
     fclose(file_to_write);
 
-    sprintf(file_name, "image/Graf%d", counter);
+    sprintf(file_name, LIST_DUMP_PATH_D "Graf%d", counter);
 
     fprintf(log_file, "<img src = \"%s.png\" width = \"1600\">", file_name);
 

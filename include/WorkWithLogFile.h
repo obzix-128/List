@@ -16,4 +16,6 @@ ErrorNumbers listDump(ListInfo* my_list, FILE* log_file, const char* func_name, 
                       CellStatus status);
 ErrorNumbers buildGraphs(ListInfo* my_list, FILE* log_file, int element_number, CellStatus status);
 
+#define LIST_DUMP_PATH_D "image/"
+
 #endif // WORKWITHLOGFILE_H

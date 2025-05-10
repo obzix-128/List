@@ -20,9 +20,11 @@ ErrorNumbers listGet(ListInfo* my_list, int element_number, ListElem_t* value, F
 
     ErrorNumbers check_error = _NO_ERROR;
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
 
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, element_number, _DELETING_CELL));
+    #endif // RELEASE_MODE_D
 
     *value = my_list->cell[element_number].data;
     my_list->cell[element_number].data = -1;
@@ -39,9 +41,11 @@ ErrorNumbers listGet(ListInfo* my_list, int element_number, ListElem_t* value, F
 
     CHECK_ERROR(listChangeMemory(my_list, &element_number, &element_number));
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
 
     CHECK_ERROR(listDump(my_list, log_file, __PRETTY_FUNCTION__, -1, _STATUS_IS_UNCHANGED));
+    #endif // RELEASE_MODE_D
 
     return check_error;
 }
@@ -52,11 +56,15 @@ ErrorNumbers findHead(ListInfo* my_list, int* head)
 
     ErrorNumbers check_error = _NO_ERROR;
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
+    #endif // RELEASE_MODE_D
 
     *head = my_list->cell[0].next;
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
+    #endif // RELEASE_MODE_D
 
     return check_error;
 }
@@ -67,11 +75,15 @@ ErrorNumbers findTail(ListInfo* my_list, int* tail)
 
     ErrorNumbers check_error = _NO_ERROR;
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
+    #endif // RELEASE_MODE_D
 
     *tail = my_list->cell[0].prev;
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
+    #endif // RELEASE_MODE_D
 
     return check_error;
 }
@@ -82,22 +94,28 @@ ErrorNumbers findElement(ListInfo* my_list, int* element_number, ListElem_t valu
 
     ErrorNumbers check_error = _NO_ERROR;
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
+    #endif // RELEASE_MODE_D
 
     for(int i = 1; i < my_list->capacity; i++)
     {
         if(my_list->cell[i].data == value)
         {
             *element_number = i;
-
+            
+            #ifndef RELEASE_MODE_D
             CHECK_ERROR(listVerificator(my_list));
+            #endif // RELEASE_MODE_D
 
             return check_error;
         }
     }
     fprintf(stdout, "An element with this value could not be found\n");
 
+    #ifndef RELEASE_MODE_D
     CHECK_ERROR(listVerificator(my_list));
+    #endif // RELEASE_MODE_D
 
     return check_error;
 }

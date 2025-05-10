@@ -5,7 +5,7 @@ FLAGS := -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equ
 		-Wformat=2 -Wignored-qualifiers -Wlogical-op -Wno-missing-field-initializers \
 		-Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 \
 		-Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -Werror=vla \
-		-D_DEBUG -D_EJUDGE_CLIENT_SIDE
+		-D_DEBUG -D_EJUDGE_CLIENT_SIDE -DRELEASE_MODE_D
 
 CC := g++
 objects := $(patsubst source/%.cpp, objects/%.o, $(wildcard source/*.cpp))
@@ -16,7 +16,8 @@ do: $(objects)
 	@$(CC) $^ $(FLAGS) -o $@
 
 objects/%.o: source/%.cpp
+	@mkdir -p objects
 	@$(CC) -c $^ $(FLAGS) -o $@
 
 clean:
-	@rm -rf objects/*.o image/*.png image/*.txt do
+	@rm -rf objects/*.o do
