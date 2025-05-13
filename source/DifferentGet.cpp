@@ -27,7 +27,7 @@ ErrorNumbers listGet(ListInfo* my_list, int element_number, ListElem_t* value, F
     #endif // RELEASE_MODE_D
 
     *value = my_list->cell[element_number].data;
-    my_list->cell[element_number].data = -1;
+    my_list->cell[element_number].data = 0;
 
     my_list->cell[my_list->cell[element_number].next].prev = my_list->cell[element_number].prev;
     my_list->cell[my_list->cell[element_number].prev].next = my_list->cell[element_number].next;

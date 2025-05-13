@@ -164,7 +164,7 @@ ErrorNumbers listChangeMemory(ListInfo* my_list, int* element_before, int* eleme
 
     for(int i = my_list->free; i < new_capacity; i++)
     {
-        new_array_of_cells[i].data = -1;
+        new_array_of_cells[i].data = 0;
         new_array_of_cells[i].next = i + 1;
         new_array_of_cells[i].prev = -1;
     }

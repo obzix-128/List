@@ -19,12 +19,12 @@ ErrorNumbers listCtor(ListInfo* my_list, FILE* log_file)
     my_list->cell = (ListCell_t*) calloc(my_list->capacity, sizeof(ListElem_t) + (sizeof(int) * 2));
     CHECK_NULL_ADDR_ERROR(my_list->cell, _CALLOC_ERROR);
 
-    const int EMPTY_CELL = -1;
+    const int EMPTY_CELL = 0;
     for(int i = 0; i < my_list->capacity; i++)
     {
-        my_list->cell[i].data = EMPTY_CELL;
+        my_list->cell[i].data = (ListElem_t)EMPTY_CELL;
     }
-    my_list->cell[0].data = POISON_VALUE;
+    my_list->cell[0].data = (ListElem_t)POISON_VALUE;
 
     my_list->cell[0].next = 0;
     for(int i = 1; i < my_list->capacity; i++)

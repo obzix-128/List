@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef int ListElem_t;
+typedef char* ListElem_t;
 
 const int MIN_LIST_SIZE = 16;
 const int POISON_VALUE  = -123;
